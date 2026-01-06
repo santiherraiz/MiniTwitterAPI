@@ -1,8 +1,8 @@
 import React from 'react';
-import { Image, ImageSourcePropType, Text, View } from 'react-native';
+import { Image, ImageSourcePropType, View, Text } from 'react-native';
 
 interface Props {
-    userAvatar?: ImageSourcePropType;
+    userAvatar?: string | ImageSourcePropType;
     userName: string;
 }
 
@@ -15,27 +15,18 @@ const getInitials = (name: string) => {
     return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
 };
 
-const Avatar = ({ userAvatar, userName }: Props) => {
+const Avatar: React.FC<Props> = ({ userAvatar, userName }) => {
+    const source = typeof userAvatar === 'string' ? { uri: userAvatar } : userAvatar;
 
-    const initials = getInitials(userName);
-
-    if (userAvatar) {
+    if (!source) {
         return (
-            <Image
-                source={userAvatar}
-                className="w-12 h-12 rounded-full bg-gray-300"
-                resizeMode="cover"
-            />
+            <View className="w-10 h-10 rounded-full bg-gray-300 justify-center items-center">
+                <Text className="text-white font-bold">{getInitials(userName)}</Text>
+            </View>
         );
     }
 
-    return (
-        <View className="w-12 h-12 rounded-full bg-gray-300 items-center justify-center">
-            <Text className="text-base font-semibold text-gray-700">
-                {initials}
-            </Text>
-        </View>
-    )
-}
+    return <Image source={source as ImageSourcePropType} className="w-10 h-10 rounded-full" />;
+};
 
-export default Avatar
+export default Avatar;

@@ -1,25 +1,29 @@
-import { useState } from "react"
+import { useState } from "react";
+import api from '../services/api';
 
-export const useLike = () => {
-    const [nLikes, setNLikes] = useState(0)
-    const [liked, setLiked] = useState(false)
+export const useLike = (initialLikes: number, initialLiked: boolean, postId: string) => {
+    const [nLikes, setNLikes] = useState(initialLikes);
+    const [liked, setLiked] = useState(initialLiked);
 
-    const setLikesCount = (count: number) => {
-        setNLikes(count)
-    }
+    const toggleLike = async () => {
+        const previousLiked = liked;
+        const previousLikes = nLikes;
 
-    const toggleLike = () => {
-        setLiked(!liked)
-        setNLikes(liked ? nLikes - 1 : nLikes + 1)
-    }
+        setLiked(!liked);
+        setNLikes(liked ? nLikes - 1 : nLikes + 1);
+
+        try {
+            await api.post(`/posts/${postId}/like`);
+        } catch (error) {
+            console.error("Error al dar like:", error);
+            setLiked(previousLiked);
+            setNLikes(previousLikes);
+        }
+    };
 
     return {
-        // Props
         nLikes,
         liked,
-
-        // Methods
-        setLikesCount,
         toggleLike
-    }
-}
+    };
+};

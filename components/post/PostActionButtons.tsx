@@ -7,6 +7,7 @@ interface Props {
     likes: number;
     retweets: number;
     replies: number;
+    postId: string;
 }
 
 interface ActionButtonProps extends PressableProps {
@@ -25,12 +26,12 @@ const ActionButton = ({ iconName, value, ...pressableProps }: ActionButtonProps)
     );
 };
 
-const PostActionButtons = ({ likes, retweets, replies }: Props) => {
+const PostActionButtons = ({ likes, retweets, replies, postId }: Props) => {
 
-    const { nLikes, liked, setLikesCount, toggleLike } = useLike();
+    const { nLikes, liked, toggleLike } = useLike(likes, false, postId);
 
     useEffect(() => {
-        setLikesCount(likes);
+        toggleLike();
     }, [likes]);
 
     return (
