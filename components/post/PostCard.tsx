@@ -45,6 +45,7 @@ const PostCard = ({ post }: Props) => {
                     likes={post.likes}
                     retweets={post.retweets}
                     replies={post.replies}
+                    postId={post.id.toString()}
                 />
             </View>
         </View>

@@ -53,7 +53,7 @@ const FeedScreen = () => {
             />
 
             <TouchableOpacity 
-                onPress={() => router.push('/(stack)/create-post')}
+                onPress={() => router.push('/(stack)/(drawer)/(tabs)/create-post')}
                 className="absolute bottom-6 right-6 bg-[#1DA1F2] w-14 h-14 rounded-full justify-center items-center shadow-lg"
             >
                 <Ionicons name="add" size={30} color="white" />

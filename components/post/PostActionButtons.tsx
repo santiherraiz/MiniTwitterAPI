@@ -30,10 +30,6 @@ const PostActionButtons = ({ likes, retweets, replies, postId }: Props) => {
 
     const { nLikes, liked, toggleLike } = useLike(likes, false, postId);
 
-    useEffect(() => {
-        toggleLike();
-    }, [likes]);
-
     return (
         <View className="mt-3 font-lg flex-row justify-between pr-8">
             <ActionButton
