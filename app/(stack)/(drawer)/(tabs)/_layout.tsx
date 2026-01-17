@@ -5,14 +5,14 @@ import React from 'react'
 const TabsLayout = () => {
     return (
         <Tabs screenOptions={{
-            headerShown: false,
+            headerShown: true,
         }}>
             <Tabs.Screen
                 name="feed/index"
                 options={{
                     title: 'Feed',
+                    headerTitle: 'Feed',
                     tabBarShowLabel: false,
-                    headerShown: false,
                     tabBarIcon: ({ color }) => <Ionicons size={28} name="home-outline" color={color} />,
                 }}
             />
@@ -27,6 +27,7 @@ const TabsLayout = () => {
                 name="hashtags/index"
                 options={{
                     title: 'Hashtags',
+                    headerTitle: 'Hashtags',
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => <Ionicons size={28} name="pricetags-outline" color={color} />,
                 }}
@@ -42,6 +43,7 @@ const TabsLayout = () => {
                 name="messages/index"
                 options={{
                     title: 'Messages',
+                    headerTitle: 'Mensajes',
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => <Ionicons size={28} name="chatbubbles-outline" color={color} />,
                 }}
@@ -57,6 +59,7 @@ const TabsLayout = () => {
                 name="users/index"
                 options={{
                     title: 'Users',
+                    headerTitle: 'Usuarios',
                     tabBarShowLabel: false,
                     tabBarIcon: ({ color }) => <Ionicons size={28} name="people-outline" color={color} />,
                 }}

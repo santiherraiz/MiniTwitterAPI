@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from '../services/api';
+import { api } from '@/core/api/twitter-api';
 
 export const useLike = (initialLikes: number, initialLiked: boolean, postId: string) => {
     const [nLikes, setNLikes] = useState(initialLikes);

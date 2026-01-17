@@ -8,7 +8,7 @@ const DrawerLayout = () => {
         <Drawer
             drawerContent={(props) => <CustomDrawer {...props} />}
             screenOptions={{
-                headerShown: true,
+                headerShown: false,
             }}
         >
             <Drawer.Screen
@@ -18,6 +18,26 @@ const DrawerLayout = () => {
                     drawerLabel: 'Inicio',
                     drawerIcon: ({ color, size }) => (
                         <Ionicons name="home-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Drawer.Screen
+                name="profile"
+                options={{
+                    title: 'Perfil',
+                    drawerLabel: 'Perfil',
+                    drawerIcon: ({ color, size }) => (
+                        <Ionicons name="person-outline" size={size} color={color} />
+                    ),
+                }}
+            />
+            <Drawer.Screen
+                name="bookmarks"
+                options={{
+                    title: 'Guardados',
+                    drawerLabel: 'Guardados',
+                    drawerIcon: ({ color, size }) => (
+                        <Ionicons name="bookmark-outline" size={size} color={color} />
                     ),
                 }}
             />

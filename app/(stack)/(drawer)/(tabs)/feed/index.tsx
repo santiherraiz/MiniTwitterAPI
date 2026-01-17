@@ -1,65 +1,31 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, ActivityIndicator, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, FlatList, ActivityIndicator, Pressable } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter, useFocusEffect } from 'expo-router';
-
+import { usePosts } from '@/hooks/usePosts';
 import PostCard from '@/components/post/PostCard';
-import api from '../../../../../services/api';
-import { Post } from '@/types/post';
 
-const FeedScreen = () => {
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [loading, setLoading] = useState(true);
+export default function FeedScreen() {
+    const { postsQuery } = usePosts();
     const router = useRouter();
 
-    const fetchPosts = async () => {
-        try {
-            const response = await api.get('/posts'); 
-            setPosts(response.data);
-        } catch (error) {
-            console.error("Error cargando el feed:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchPosts();
-    }, []);
-
-    useFocusEffect(
-        useCallback(() => {
-            fetchPosts();
-        }, [])
-    );
-
-    if (loading) {
-        return (
-            <SafeAreaView className="flex-1 bg-quaternary justify-center items-center">
-                <ActivityIndicator size="large" color="#1DA1F2" />
-            </SafeAreaView>
-        );
-    }
+    if (postsQuery.isLoading) return <View className="flex-1 justify-center items-center"><ActivityIndicator size="large" color="#1DA1F2" /></View>;
 
     return (
-        <SafeAreaView edges={['left', 'right']} className="flex-1 bg-quaternary relative">
+        <View className="flex-1 bg-white dark:bg-black">
             <FlatList
-                data={posts}
-                keyExtractor={(item) => item.id.toString()}
+                data={postsQuery.data}
+                keyExtractor={(item) => item.id}
                 renderItem={({ item }) => <PostCard post={item} />}
-                onRefresh={fetchPosts}
-                refreshing={loading}
+                contentContainerStyle={{ paddingBottom: 80 }}
             />
-
-            <TouchableOpacity 
-                onPress={() => router.push('/(stack)/(drawer)/(tabs)/create-post')}
-                className="absolute bottom-6 right-6 bg-[#1DA1F2] w-14 h-14 rounded-full justify-center items-center shadow-lg"
+            
+            {/* FAB - Floating Action Button */}
+            <Pressable 
+                onPress={() => router.push('/create-post')}
+                className="absolute bottom-6 right-6 bg-[#1DA1F2] w-14 h-14 rounded-full justify-center items-center shadow-lg active:opacity-80"
             >
                 <Ionicons name="add" size={30} color="white" />
-            </TouchableOpacity>
-        </SafeAreaView>
+            </Pressable>
+        </View>
     );
 }
-
-export default FeedScreen;

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Text, TouchableOpacity, Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import api from '../../../../../services/api';
+import { api } from '@/core/api/twitter-api';
 
 export default function CreatePostScreen() {
     const [text, setText] = useState('');

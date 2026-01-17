@@ -1,7 +1,10 @@
 import { useLike } from '@/hooks/useLike';
+import { useRetweet } from '@/hooks/useRetweet';
+import { useBookmark } from '@/hooks/useBookmark';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
 import { Pressable, PressableProps, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
 
 interface Props {
     likes: number;
@@ -27,8 +30,11 @@ const ActionButton = ({ iconName, value, ...pressableProps }: ActionButtonProps)
 };
 
 const PostActionButtons = ({ likes, retweets, replies, postId }: Props) => {
+    const router = useRouter();
 
     const { nLikes, liked, toggleLike } = useLike(likes, false, postId);
+    const { nRetweets, retweeted, toggleRetweet } = useRetweet(retweets, false, postId);
+    const { nBookmarks, bookmarked, toggleBookmark } = useBookmark(0, false, postId); // bookmarks not in post, assume 0
 
     return (
         <View className="mt-3 font-lg flex-row justify-between pr-8">
@@ -38,14 +44,19 @@ const PostActionButtons = ({ likes, retweets, replies, postId }: Props) => {
                 onPress={() => toggleLike()}
             />
             <ActionButton
-                iconName="repeat-outline"
-                value={retweets}
-                onPress={() => { }}
+                iconName={retweeted ? 'repeat' : 'repeat-outline'}
+                value={nRetweets}
+                onPress={() => toggleRetweet()}
             />
             <ActionButton
                 iconName="chatbubble-outline"
                 value={replies}
-                onPress={() => { }}
+                onPress={() => router.push(`/feed/${postId}`)}
+            />
+            <ActionButton
+                iconName={bookmarked ? 'bookmark' : 'bookmark-outline'}
+                value={nBookmarks}
+                onPress={() => toggleBookmark()}
             />
         </View>
     )
