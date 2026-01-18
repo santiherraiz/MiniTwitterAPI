@@ -1,55 +1,53 @@
+import { View, Text, Image, Pressable } from 'react-native';
 import { Post } from '@/types/post';
-import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { useRouter } from 'expo-router';
 import Avatar from './Avatar';
 import PostActionButtons from './PostActionButtons';
+import { usePosts } from '@/hooks/usePosts'; // Importamos el hook
 
 interface Props {
     post: Post;
 }
 
-const PostCard = ({ post }: Props) => {
+export default function PostCard({ post }: Props) {
+    const router = useRouter();
+    const { likePostMutation } = usePosts(); // Usamos la mutación
 
     return (
-        <View className="flex-row px-4 py-3 border-b border-gray-200 bg-quaternary">
-            {/* Avatar a la izquierda */}
-            <View className="mr-3">
-                <Avatar userAvatar={post.userAvatar} userName={post.userName} />
+        <Pressable 
+            onPress={() => router.push(`/feed/${post.id}`)}
+            className="flex-row p-4 border-b border-gray-100 bg-white active:bg-gray-50"
+        >
+            <Pressable onPress={() => {}}>
+                <Avatar src={post.userAvatar} size="md" />
+            </Pressable>
+            
+            <View className="flex-1 ml-3">
+                <View className="flex-row items-center mb-1">
+                    <Text className="font-bold text-base mr-1">{post.userName}</Text>
+                    <Text className="text-gray-500 text-sm">@{post.userHandle}</Text>
+                    <Text className="text-gray-500 text-sm mx-1">·</Text>
+                    <Text className="text-gray-500 text-sm">2h</Text>
+                </View>
+
+                <Text className="text-base text-gray-900 leading-5 mb-2">{post.content}</Text>
+
+                {post.imageUrl && (
+                    <Image source={{ uri: post.imageUrl }} className="w-full h-48 rounded-xl mb-2 bg-gray-100" resizeMode="cover"/>
+                )}
+
+               {/* Conectamos los botones */}
+               <PostActionButtons 
+                    likes={post.likes} 
+                    replies={post.replies} 
+                    retweets={post.retweets} 
+                    isLiked={post.isLiked}
+                    isRetweeted={post.isRetweeted}
+                    onLike={() => likePostMutation.mutate(post.id)} // <--- AQUÍ LA MAGIA
+                    onRetweet={() => {}} // Implementar similar si tienes la acción
+                    onReply={() => router.push(`/feed/${post.id}`)} // Ir al detalle para responder
+               />
             </View>
-
-            {/* Contenido a la derecha */}
-            <View className="flex-1">
-                {/* Username */}
-                <Text className="text-lg font-chirp-bold font-semibold text-gray-900">
-                    {post.userName}
-                </Text>
-
-                {/* Imagen del post (opcional) */}
-                {post.imageUrl ? (
-                    <Image
-                        source={{ uri: post.imageUrl }}
-                        className="mt-3 w-full h-52 rounded-xl bg-gray-200"
-                        resizeMode="cover"
-                    />
-                ) : null}
-
-                {/* Contenido del post */}
-                {post.content ? (
-                    <Text className="mt-1 text-lg font-chirp-regular text-gray-800">
-                        {post.content}
-                    </Text>
-                ) : null}
-
-                {/* Botonera de acciones */}
-                <PostActionButtons
-                    likes={post.likes}
-                    retweets={post.retweets}
-                    replies={post.replies}
-                    postId={post.id.toString()}
-                />
-            </View>
-        </View>
-    )
+        </Pressable>
+    );
 }
-
-export default PostCard

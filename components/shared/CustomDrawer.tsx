@@ -9,7 +9,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
         <DrawerContentScrollView {...props}>
             <View className='flex justify-center items-center mx-3 p-10 mb-10 h-[150px] rounded-xl bg-primary'>
                 <View className='flex justify-center items-center bg-white rounded-full h-24 w-24'>
-                    <Text className='text-primary font-work-black text-3xl'>AC</Text>
+                    <Text className='text-primary font-work-black text-3xl'>SH</Text>
                 </View>
             </View>
 
@@ -18,7 +18,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                 icon={({ color, size }) => (
                     <Ionicons name="home-outline" size={size} color={color} />
                 )}
-                onPress={() => router.push('/feed')}
+                onPress={() => router.push('/(stack)/(drawer)/(tabs)/feed')}
             />
             <DrawerItem
                 label="Perfil"
@@ -26,7 +26,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                     <Ionicons name="person-outline" size={size} color={color} />
                 )}
                 onPress={() =>
-                    router.push('/profile')
+                    router.push('/(stack)/(drawer)/profile')
                 }
             />
             <DrawerItem
@@ -35,7 +35,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                     <Ionicons name="bookmark-outline" size={size} color={color} />
                 )}
                 onPress={() =>
-                    router.push('/bookmarks')
+                    router.push('/(stack)/(drawer)/bookmarks')
                 }
             />
             <DrawerItem
@@ -44,7 +44,7 @@ const CustomDrawer = (props: DrawerContentComponentProps) => {
                     <Ionicons name="log-out-outline" size={size} color={color} />
                 )}
                 onPress={() =>
-                    router.replace('/auth')
+                    router.replace('/(stack)/auth')
                 }
             />
         </DrawerContentScrollView>
